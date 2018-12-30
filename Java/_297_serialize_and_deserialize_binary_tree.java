@@ -53,16 +53,20 @@ public class Codec {
 	// Decodes your encoded data to tree.
 	public TreeNode deserialize(String data) {
 		String[] vals = data.split(",");
+		if(vals.length == 0) return null;
 		TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
 		Queue<TreeNode> queue = new LinkedList<TreeNode>();
 		queue.add(root);
-		int i=1;
+		
+		int j=1;
+		if(j == vals.length) return root;
 		while(queue.size()!=0){
 			TreeNode node = queue.poll();
 			if(node == null){
 				j += 2;
 				queue.add(null);
 				queue.add(null);
+				if(j >= vals.length) return root;
 			}
 			else{
 				if(vals[j].equals("null")){
@@ -72,7 +76,7 @@ public class Codec {
 					node.left = new TreeNode(Integer.parseInt(vals[j]));
 				}
 				j++;
-
+				if(j == vals.length) return root;
 				if(vals[j].equals("null")){
 					node.right = null;
 				}
@@ -80,6 +84,7 @@ public class Codec {
 					node.right = new TreeNode(Integer.parseInt(vals[j]));
 				}
 				j++;
+				if(j == vals.length) return root;
 			}
 		
 		}
